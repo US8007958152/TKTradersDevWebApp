@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "_Layout_Login";
+    ViewData["Title"] = "Login";
+}
+@model TKTradersWebApp.Areas.Securities.Models.LogIn
+
+<style>
+    .common-img-bg {
+    background-size: cover;
+    background: url("/Admin/images/login_background.jpg") no-repeat center center fixed;
+    height: 100%;
+    background-size: cover; /* or contain depending on what you want */
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-align:center;
+  margin:auto;
+  padding:0;
+}
+</style>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div class="login-card card-block auth-body">
+                        <form autocomplete="off" class="md-float-material" method="post" asp-area="Securities" asp-controller="Authenticate" asp-action="Login">
+                            <div class="text-center">
+                                @*<img src="~/FlatableAdmin/assets/images/logo_1.jpeg" width="100" height="100" alt="logo.png">*@
+                                <span style="font-size: 30px !important;font-weight: bold">TK Traders</span>
+                            </div>
+                            <div class="auth-box">
+                                <div class="row m-b-20">
+                                    <div class="col-md-12">
+                                        <h3 class="text-left txt-primary">Sign In</h3>
+                                        <span class="text-danger">@TempData["ErrorMessage"]</span>
+                                    </div>
+                                     
+                                </div>
+                                <hr />
+                                 
+                                <div class="input-group">
+                                    <input type="text"  asp-for="@Model.MobileNumber" class="form-control" placeholder="Mobile Number">
+                                    <span class="md-line"></span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text"  asp-for="@Model.Password" id="Password" class="form-control" placeholder="Password">
+                                    <span class="md-line"></span>
+                                </div>
+                                <div class="row m-t-25 text-left">
+                                    <div class="col-sm-7 col-xs-12">
+                                        <div class="checkbox-fade fade-in-primary">
+                                            <label>
+                                                <input type="checkbox" asp-for="IsRememberMe" >
+                                                <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
+                                                <span class="text-inverse">Remember me</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-xs-12 forgot-phone text-right">
+                                        <a asp-area="Securities" asp-controller="Authenticate" asp-action="ForgotPassword" class="text-right f-w-600 text-inverse"> Forgot Password?</a>
+                                    </div>
+                                </div>
+                               
+                                <div class="row m-t-30">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Sign in</button>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <p class="text-inverse text-left m-b-0">Thank you and enjoy our website.</p>
+                                        <p class="text-inverse text-left"><b>Your Autentification Team</b></p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <img src="~/FlatableAdmin/assets/images/auth/Logo-small-bottom.png" alt="small-logo.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        @section scripts{
+             <script src=@Url.Content("/UserScripts/Securities/Authenticate.js")></script>
+        }
+       
+  

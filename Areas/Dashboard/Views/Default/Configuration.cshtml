@@ -1,0 +1,397 @@
+﻿@model IEnumerable<TKTradersWebApp.Areas.Transports.Models.Transport>
+
+
+    <style>
+        .card{
+                min-height: 606px !important;
+        }
+    </style>
+<div class="page-body">
+    <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Add Driver</h5>
+                    <div class="card-header-right">
+                        <i class="icofont icofont-rounded-down"></i>
+                        <i class="icofont icofont-refresh"></i>
+                        <i class="icofont icofont-close-circled"></i>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="j-wrapper j-wrapper-640">
+
+                        <form method="post" class="j-pro" id="frmDriverInfo" autocomplete="off" enctype="multipart/form-data" novalidate>
+                            @Html.AntiForgeryToken()
+
+                            <div class="j-content">
+
+                                <div class="j-row">
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Driver Name</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="DriverName">
+                                                <i class="icofont icofont-ui-user"></i>
+                                            </label>
+                                            <input type="text" id="DriverName" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Enter Driver Name</span>
+                                        </div>
+                                    </div>
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Driver Mobile</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="DriverMobile">
+                                                <i class="icofont icofont-phone"></i>
+                                            </label>
+                                            <input type="text" id="DriverMobile" maxlength="10" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Enter Driver Mobile</span>
+                                        </div>
+                                    </div>
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Driver Address</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="DriverAddress">
+                                                <i class="icofont icofont-ui-user"></i>
+                                            </label>
+                                            <input type="text" id="DriverAddress" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Enter Driver Address</span>
+                                        </div>
+                                    </div>
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Type</label>
+                                        <label class="j-input j-select">
+                                            <select id="ddlDriverType" required>
+                                                <option value="" selected>-- Select --</option>
+                                                <option value="1">Internal</option>
+                                                <option value="2">External</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="j-footer">
+                               @* <a asp-area="Transports" asp-controller="Transport" asp-action="GetTransports" class="btn btn-primary">Back</a>*@
+                                <button type="button" class="btn btn-primary" id="btnDriverSave">Save</button>
+                                <button type="reset" id="btnDriverReset" class="btn btn-default m-r-20">Reset</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Add Truck</h5>
+                    <div class="card-header-right">
+                        <i class="icofont icofont-rounded-down"></i>
+                        <i class="icofont icofont-refresh"></i>
+                        <i class="icofont icofont-close-circled"></i>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="j-wrapper j-wrapper-640">
+
+                        <form asp-area="Transports" asp-controller="Transport" asp-action="Edit" method="post" class="j-pro" id="frmTruckInfo" autocomplete="off" enctype="multipart/form-data" novalidate>
+                            @Html.AntiForgeryToken()
+
+                            <div class="j-content">
+
+                                <div class="j-row">
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Truck Owner</label>
+                                        <label class="j-input j-select">
+                                            <select asp-items="@ViewBag.ddlTruckOwner" id="ddlTruckOwner" required>
+                                                <option value="" selected>-- Select --</option>
+                                                <option value="-999">Self</option>
+                                                <option value="-777">Other Supplier</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Truck Number</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="TruckNumber">
+                                                <i class="icofont icofont-vehicle-delivery-van "></i>
+                                            </label>
+                                            <input type="text" id="TruckNumber" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Enter Truck Number</span>
+                                        </div>
+                                    </div>
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Truck Owner Mobile</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="TruckOwnerMobile">
+                                                <i class="icofont icofont-phone"></i>
+                                            </label>
+                                            <input type="text" id="TruckOwnerMobile" maxlength="10" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Enter Driver Mobile</span>
+                                        </div>
+                                    </div>
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Truck Owner Name</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="TruckOwnerName">
+                                                <i class="icofont icofont-ui-user"></i>
+                                            </label>
+                                            <input type="text" id="TruckOwnerName" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Truck Owner Name</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="j-footer">
+                                @*<a asp-area="Transports" asp-controller="Transport" asp-action="GetTransports" class="btn btn-primary">Back</a>*@
+                                <button type="button" class="btn btn-primary" id="btnTruckSave">Save</button>
+                                <button type="reset" id="btnTruckReset" class="btn btn-default m-r-20">Reset</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            showOrHideTruckDetails('HIDE');
+            $('#TruckOwnerMobile').on('paste keypress', function(e) {
+
+                var charCode = (e.which) ? e.which : event.keyCode
+
+                if (String.fromCharCode(charCode).match(/[^0-9]/g))
+                    return false;
+
+            });
+             $('#DriverMobile').on('paste keypress', function(e) {
+
+                var charCode = (e.which) ? e.which : event.keyCode
+
+                if (String.fromCharCode(charCode).match(/[^0-9]/g))
+                    return false;
+
+            });
+            $("#ddlTruckOwner").change(function() {
+                if ($(this).val() == "-777") {
+                    showOrHideTruckDetails('show')
+                }
+                else
+                    showOrHideTruckDetails('HIDE')
+            })
+            $("#btnTruckSave").click(function() {
+                if (validateForm())
+                    saveTruck();
+            });
+            $("#btnDriverSave").click(function() {
+                if (validateDriverForm())
+                    saveDriver();
+            });
+            $("#TruckOwnerMobile,#TruckNumber").change(function() {
+                if ($("#TruckNumber").val() != "" || $("#TruckOwnerMobile").val().length == 10)
+                    getOtherTruck($("#TruckNumber").val(), $("#TruckOwnerMobile").val());
+                else {
+
+                    $("#TruckOwnerName").val('');
+                    $("#TruckOwnerAddress").val('');
+                }
+            });
+        });
+
+        function showOrHideTruckDetails(type) {
+            if (type.toUpperCase() == 'HIDE') {
+                $("#TruckOwnerMobile,#TruckOwnerName").val('');
+                $("#TruckOwnerMobile,#TruckOwnerName").removeAttr('required');
+                $("#TruckOwnerMobile,#TruckOwnerName").closest('.j-unit').hide();
+            }
+            else {
+                $("#TruckOwnerMobile,#TruckOwnerName").attr('required', true);
+                $("#TruckOwnerMobile,#TruckOwnerName").closest('.j-unit').show();
+            }
+        }
+        function validateForm() {
+            var returnValue = true;
+            $('form#frmTruckInfo').find('select,input').each(function() {
+                if ($(this).prop('required') && ($(this).val() == '' || $(this).val() == null)) {
+                    var message = $(this).closest('.j-unit').find('.j-label').text();
+                    if ($(this).prop('type') == 'text')
+                        toastr.error("Please Enter " + message);
+                    else
+                        toastr.error("Please Select " + message);
+                    $(this).focus();
+                    returnValue = false;
+                    return returnValue;
+                }
+            });
+            return returnValue;
+        }
+         function validateDriverForm() {
+            var returnValue = true;
+            $('form#frmDriverInfo').find('select,input').each(function() {
+                if ($(this).prop('required') && ($(this).val() == '' || $(this).val() == null)) {
+                    var message = $(this).closest('.j-unit').find('.j-label').text();
+                    if ($(this).prop('type') == 'text')
+                        toastr.error("Please Enter " + message);
+                    else
+                        toastr.error("Please Select " + message);
+                    $(this).focus();
+                    returnValue = false;
+                    return returnValue;
+                }
+            });
+            return returnValue;
+        }
+        function deleteTransports(transportId) {
+            if (confirm("Do you want to delete this?")) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Transports/Transport/Delete?transportId=" + transportId,
+                    dataType: "json",
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        if (response.statusCode > 0) {
+                            toastr.options.onHidden = function() {
+                                window.location.reload();
+                            }
+                            toastr.success(response.statusMessage);
+
+                        }
+                        else
+                            toastr.error(response.statusMessage);
+                    },
+                    complete: function() {
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        toastr.error(response.statusMessage);
+                    }
+                })
+            }
+
+            return false;
+        }
+        function saveTruck() {
+            var formData = {
+                UserId: $("#ddlTruckOwner").val(),
+                TruckNumber: $("#TruckNumber").val(),
+                TruckOwnerMobile: $("#TruckOwnerMobile").val(),
+                TruckOwnerName: $("#TruckOwnerName").val()
+            }
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                type: "POST",
+                url: "/Dashboard/Default/AddTruck",
+                dataType: "json",
+                beforeSend: function() {
+
+                },
+                data: { __RequestVerificationToken: token, truck: formData },
+                success: function(response) {
+                    if (response.statusCode > 0) {
+                        toastr.success(response.statusMessage);
+                        ResetForm();
+                    }
+                    else
+                        toastr.error(response.statusMessage);
+                },
+                complete: function() {
+
+                },
+                error: function(error) {
+                    console.log(error);
+                    toastr.error(response.statusMessage);
+                }
+            })
+        }
+        function saveDriver() {
+            var isInternal = false;
+            if ($("#ddlDriverType").val() == "1")
+                isInternal = true;
+            var formData = {
+                UserTypeId: 4,
+                Name: $("#DriverName").val(),
+                MobileNumber: $("#DriverMobile").val(),
+                Address: $("#DriverAddress").val(),
+                IsInternalDriver:isInternal
+            }
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                type: "POST",
+                url: "/Dashboard/Default/AddDriver",
+                dataType: "json",
+                beforeSend: function() {
+
+                },
+                data: { __RequestVerificationToken: token, userMaster: formData },
+                success: function(response) {
+                    if (response.statusCode > 0) {
+                        toastr.success(response.statusMessage);
+                        $("#btnDriverReset").trigger('click');
+                    }
+                    else
+                        toastr.error(response.statusMessage);
+                },
+                complete: function() {
+
+                },
+                error: function(error) {
+                    console.log(error);
+                    toastr.error(response.statusMessage);
+                }
+            })
+        }
+
+        function getOtherTruck(truckNumber, mobileNumber) {
+            $.ajax({
+                url: "/Securities/Common/GetOtherTrucks?truckNumber=" + truckNumber + "&mobileNumber=" + mobileNumber,
+                type: "GET",
+                dataType: "json",
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    if (response !== undefined && response != null) {
+                        if(response.mobileNumber!=null)
+                        $("#TruckOwnerMobile").val(response.mobileNumber);
+                        if(response.name!=null)
+                        $("#TruckOwnerName").val(response.name);
+                    }
+                    else {
+                        $("#TruckOwnerName").val('');
+                    }
+
+                },
+                error: function(error) {
+
+                },
+                complete: function() {
+
+                }
+            })
+        }
+        function ResetForm() {
+
+            showOrHideTruckDetails('hide');
+            $("#btnTruckReset").trigger("click");
+        }
+    </script>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script type="text/javascript">toastr.success("@TempData["SuccessMessage"]");</script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script type="text/javascript">toastr.error("@TempData["ErrorMessage"]");</script>
+    }
+}
+

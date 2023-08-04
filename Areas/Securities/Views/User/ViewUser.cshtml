@@ -1,0 +1,395 @@
+﻿@model TKTradersWebApp.Areas.Securities.Models.ViewUser
+
+
+<style>
+        .icofont
+        {
+            font-weight:bold !important;
+        }
+        .j-wrapper-640 {
+        max-width: 1200px !important;
+    }
+    .j-pro [class*="j-span"] {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+    .card .card-header {
+        padding: 14px 10px !important;
+    }
+    .j-pro .j-content {
+        padding: 25px 15px 0 !important;
+    }
+    .j-pro .j-unit {
+        position: relative;
+        margin-bottom: 10px !important;
+    }
+  
+    .md-content h3 {
+    font-size: 1.4em !important;
+}
+.md-modal {
+    
+    max-width: 757px !important;
+}
+
+element.style {
+}
+.j-pro .j-icon-left {
+    border-right: 1px solid rgba(0,0,0,.32);
+}
+.j-pro .j-icon-left {
+    border-right: 1px solid rgba(0,0,0,.54);
+    left: 3px;
+}
+input[type="text"]:disabled {
+  background: #D3D3D3;
+}
+/*.j-pro .j-icon-left, .j-pro .j-icon-right {
+  
+    width: 20px !important;
+}*/
+/*.j-pro .j-icon-left ~ input, .j-pro .j-icon-left ~ textarea {
+    padding-left: 26px !important;
+}*/
+/*.bg-highlight{
+    background-color: #8cddcd !important;
+}*/
+</style>
+<link rel="stylesheet" type="text/css" href="~/FlatableAdmin/assets/css/component.css">
+<div class="modal fade" id="large-Modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Payment History</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <div class="table-responsive dt-responsive">
+                <table id="dom-jqry" class="table table-striped table-bordered nowrap">
+                    <thead>
+                        <tr>
+                            <th>TransacationId</th>
+                            <th>Transaction Type</th>                           
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                             <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      @foreach(var payment in Model.UserPayments)
+                        {
+                             <tr>
+                            <td>@payment.TransactionId</td>
+                            
+                           
+                            @if(payment.TransactionTypeId==2)
+                                {
+                                   
+                                    <td><span class="label label-success">Received</span> </td>
+                                     <td><span class="text-success">+&#8377;@payment.Amount</span></td>
+                                }
+                                else if(payment.TransactionTypeId==1)
+                                {                                  
+                                  
+                                    <td><span class="label label-danger">Sent</span> </td>
+                                     <td> <span class="text-danger">-&#8377;@payment.Amount</span></td>
+                                }
+                                else
+                                {
+                                   
+                                    <td>&nbsp;</td>
+                                }
+                                
+                                 
+                            <td>@payment.CreatedDate.ToString("dd/MMM/yyyy")</td>
+                            <td>@payment.Comments</td>
+                        </tr>
+                        }
+                      
+                    </tbody>
+                    
+                </table>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card table-1-card">
+                    <div class="card-header">
+
+                        <h5>User Details</h5>
+                        <div class="card-header-right">
+                            <i class="icofont icofont-rounded-down"></i>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#large-Modal">View Payment</a>
+                            <i class="icofont icofont-swoosh-left"><a href="~/Securities/User/GetUsers">GoBack</a></i>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        
+           
+                        <div class="j-wrapper j-wrapper-640">
+                            <form class="j-pro" id="frmUserInfo" autocomplete="off">
+                                <div class="j-content">
+                                    <div class="j-row">
+
+                                        <div class="j-span5 j-unit">
+                                            <label class="j-label">Name</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="SupplierMobile">
+                                                    <i class="icofont icofont-ui-user"></i>
+                                                </label>
+                                                <input type="hidden" asp-for="UserId" id="hdn" />
+                                                <input type="text" id="SupplierMobile" disabled asp-for="Name">
+
+                                            </div>
+                                        </div>
+                                        <div class="j-span3 j-unit">
+                                            <label class="j-label">Mobile Number</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="SupplierName">
+
+                                                    <i class="icofont icofont-phone"></i>
+                                                </label>
+                                                <input type="text" id="SupplierName" maxlength="10" asp-for="MobileNumber" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="j-span4 j-unit">
+                                            <label class="j-label">Email Id</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="SupplierAddress">
+                                                    <i class="icofont icofont-envelope"></i>
+                                                </label>
+                                                <input type="text" id="SupplierAddress" asp-for="EmailId" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="j-span3 j-unit">
+                                            <label class="j-label">User Type</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="SupplierMobile">
+                                                    <i class="icofont icofont-ui-user"></i>
+                                                </label>
+                                                <input type="text" asp-for="UserType" disabled>
+                                            </div>
+                                        </div>
+                                        @if(Model.UserTypeId==3 || Model.UserTypeId==5)
+                                        {
+                                              <div class="j-span5 j-unit">
+                                            <label class="j-label">Company</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="CustomerAddress">
+                                                    <i class="icofont icofont-building"></i>
+                                                </label>
+                                                <input type="text" asp-for="Company" disabled>
+                                            </div>
+                                        </div>
+                                         <div class="j-span4 j-unit">
+                                            <label class="j-label">User Address</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="CustomerAddress">
+                                                    <i class="icofont icofont-building"></i>
+                                                </label>
+                                                <input type="text" asp-for="Address" disabled>
+
+                                            </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                             <div class="j-span9 j-unit">
+                                            <label class="j-label">User Address</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="CustomerAddress">
+                                                    <i class="icofont icofont-building"></i>
+                                                </label>
+                                                <input type="text" asp-for="Address" disabled>
+
+                                            </div>
+                                        </div>
+                                        }
+                                         <div class="j-span4 j-unit">
+                                            <label class="j-label">City</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="SupplierMobile">
+                                                    <i class="icofont icofont-ui-user"></i>
+                                                </label>
+                                                <input type="text" asp-for="City" disabled>
+                                            </div>
+                                        </div>
+                                          <div class="j-span4 j-unit">
+                                            <label class="j-label">Disrtict</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="SupplierMobile">
+                                                    <i class="icofont icofont-ui-user"></i>
+                                                </label>
+                                                <input type="text" asp-for="District" disabled>
+                                            </div>
+                                        </div>
+                                          <div class="j-span4 j-unit">
+                                            <label class="j-label">State</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-right" for="SupplierMobile">
+                                                    <i class="icofont icofont-ui-user"></i>
+                                                </label>
+                                                <input type="text" asp-for="State" disabled>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="j-row">
+                                        <div class="j-span3 j-unit">
+                                            <label class="j-label">Buy Amount</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-left" for="BuyAmount">
+                                                    <i class="icofont icofont-cur-rupee-true"></i>
+                                                </label>
+                                                <input type="text" asp-for="BuyAmount" disabled>
+                                            </div>
+                                        </div>
+                                         <div class="j-span3 j-unit">
+                                            <label class="j-label">Sell Amount</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-left" for="BuyAmount">
+                                                    <i class="icofont icofont-cur-rupee-true"></i>
+                                                </label>
+                                                <input type="text" asp-for="SellAmount" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="j-span3 j-unit">
+                                            <label class="j-label">Hire Truck Rent</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-left" for="SellAmount">
+                                                    <i class="icofont icofont-cur-rupee-true"></i>
+                                                </label>
+                                                <input type="text" asp-for="HireTruckRent" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="j-span3 j-unit">
+                                            <label class="j-label">Provide Truck Rent</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-left" for="SellPaidAmount">
+                                                    <i class="icofont icofont-cur-rupee-true"></i>
+                                                </label>
+                                                <input type="text" asp-for="ProvideTruckRent" disabled>
+                                            </div>
+                                        </div>
+                                         <div class="j-span3 j-unit">
+                                            <label class="j-label">Sent Amount</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-left" for="SellPaidAmount">
+                                                    <i class="icofont icofont-cur-rupee-true"></i>
+                                                </label>
+                                                <input type="text" asp-for="SentAmount" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="j-span3 j-unit">
+                                            <label class="j-label">Received Amount</label>
+                                            <div class="j-input">
+                                                <label class="j-icon-left" for="SellPaidAmount">
+                                                    <i class="icofont icofont-cur-rupee-true"></i>
+                                                </label>
+                                                <input type="text" asp-for="ReceivedAmount" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="j-span3 j-unit">
+                                            @if(Model.IsUserPay)
+                                            {
+                                                <label class="j-label">User Final Pay</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="j-label">Your Final Pay</label>
+                                            }
+
+                                            <div class="j-input">
+                                                <label class="j-icon-left" for="SellPaidAmount">
+                                                    <i class="icofont icofont-cur-rupee-true"></i>
+                                                </label>
+                                                <input type="text" class="bg-highlight" asp-for="FinalPay" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <h5>Order History</h5>
+                        <div class="j-wrapper j-wrapper-640">
+                            <form class="j-pro" id="frmUserInfo" autocomplete="off">
+                                <div class="j-content">
+                                    <div class="j-row">
+                                        <div class="table-responsive dt-responsive">
+                                            <table id="dom-jqry" class="table table-striped table-bordered nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>OrderId</th>
+                                                        <th>TransportType</th>
+                                                        <th>SupplierName</th>
+                                                        <th>Customer</th>
+                                                        <th>Product</th>
+                                                        <th>Quantity</th>
+                                                        <th>Order Date</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var order in Model.UserOrders)
+                                                    {
+                                                        <tr>
+                                                            <td>@order.OrderId</td>
+                                                            <td>@order.TransportType</td>
+                                                            <td>@order.SupplierName</td>
+                                                            <td>@order.CustomerName</td>
+                                                            <td>@order.ProductName</td>
+                                                            <td>@order.Quantity</td>
+                                                            <td>@order.OrderDate.ToString("dd/MMM/yyyy")</td>
+                                                            <td>
+                                                                <a asp-area="Inventories" asp-controller="NewOrder" asp-action="Edit" asp-route-orderId="@order.OrderId">
+                                                                    <i class="icofont icofont-pencil-alt-2"></i>&nbsp;&nbsp;
+                                                                </a>
+                                                                <a asp-area="Inventories" asp-controller="NewOrder" asp-action="Delete" asp-route-orderId="@order.OrderId">
+                                                                    <i class="icofont icofont-trash"></i>&nbsp;&nbsp;
+                                                                </a>
+                                                                <a asp-area="Inventories" asp-controller="NewOrder" asp-action="View" asp-route-orderId="@order.OrderId">
+
+                                                                    <i class="icofont icofont-circled-right"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                       
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script src=@Url.Content("~/FlatableAdmin/assets/js/modal.js")></script>
+    <script src=@Url.Content("~/FlatableAdmin/assets/js/modalEffects.js")></script>
+    <script src=@Url.Content("~/UserScripts/Securities/User.js")></script>
+}

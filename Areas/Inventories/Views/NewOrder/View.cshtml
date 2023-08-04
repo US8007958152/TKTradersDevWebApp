@@ -1,0 +1,295 @@
+﻿@model TKTradersWebApp.Areas.Inventories.Models.ViewOrder
+@{
+    ViewData["Title"] = "View Order";
+}
+<style>
+        .invoice-contact {
+        display: flex;
+         margin-bottom: 0px;
+        padding-top: 10px;
+        align-items: center;
+    }
+</style>
+<div class="container">
+
+    <div>
+
+        <div class="card">
+            <div class="row invoice-contact">
+                <div class="col-md-12">
+                    <div class="invoice-box row">
+                        <div class="col-sm-12">
+                            <h4 class="text-center" style="font-weight:bold">TK Traders</h4>
+                            <p class="m-0 m-t-10 text-center">NH6 Opposite to St.peter School Bela, Bhandara</p>
+                            <p class="m-0 text-center"> <a href="#">+91 8999470643</a></p>
+                            <p class="text-center"> <a href="#">tktraders@gmail.com</a></p>
+                        </div>
+                    </div>
+                </div>
+                @*  <div class="col-md-4">
+                <div class="row text-center">
+                <div class="col-sm-12 invoice-btn-group">
+                <button type="button" class="btn btn-primary btn-print-invoice waves-effect waves-light m-r-20">
+                Print Invoice
+                </button>
+                <button type="button" class="btn btn-danger waves-effect waves-light">
+                Cancel Invoice
+                </button>
+                </div>
+                </div>
+                </div>*@
+            </div>
+            <div class="card-block">
+                <div class="row invoive-info">
+
+
+                    @* <div class="col-md-3 col-sm-6">
+                    <h6>Order Information :</h6>
+                    <table class="table table-responsive invoice-table invoice-order table-borderless">
+                    <tbody>
+                    <tr>
+                    <th>Date :</th>
+                    <td>November 14</td>
+                    </tr>
+                    <tr>
+                    <th>Status :</th>
+                    <td>
+                    <span class="label label-success">Delivered</span>
+                    </td>
+                    </tr>
+                    <tr>
+                    <th>Id :</th>
+                    <td>
+                    #145698
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    </div>*@
+                    @{
+                        var col = 0;
+                        if (Model.Supplier != null)
+                            col = col + 1;
+                        if (Model.Customer != null)
+                            col = col + 1;
+                        if (Model.TruckOwner != null)
+                            col = col + 1;
+                        if (Model.Driver != null)
+                            col = col + 1;
+                        if (col == 4)
+                            col = 3;
+                        else  if (col == 3)
+                            col = 4;
+                        else  if (col == 2)
+                            col = 6;
+                    }
+                    @if (Model.Supplier != null)
+                    {
+                        <div class="col-md-@col col-xs-12 invoice-client-info">
+                            <h6>Supplier Information :</h6>
+                            <h6 class="m-0">@Model.Supplier.Name</h6>
+                            <p class="m-0">(+91) - @Model.Supplier.MobileNumber</p>
+                              <p class="m-0"><b>Pickup Location</b> :</p>
+                            <p class="m-0 m-t-10">@Model.PickupLocation</p>
+                        </div>
+                    }
+                    @if (Model.Customer != null)
+                    {
+                        <div class="col-md-@col col-xs-12 invoice-client-info">
+                            <h6>Customer Information :</h6>
+                            <h6 class="m-0">@Model.Customer.Name</h6>
+                            <p class="m-0">(+91) - @Model.Customer.MobileNumber</p>
+                             <p class="m-0"><b>Drop Location</b> :</p>
+                            <p class="m-0 m-t-10">@Model.DropLocation</p>
+                           
+                        </div>
+                    }
+                    @if (Model.TruckOwner != null)
+                    {
+                        <div class="col-md-@col col-xs-12 invoice-client-info">
+                            <h6>Truck Information :</h6>
+                            <h6 class="m-0">@Model.TruckNumber</h6>
+                            <p class="m-0">(+91) - @Model.TruckOwner.MobileNumber</p>
+                            @if (!string.IsNullOrEmpty(Model.TruckOwner.Address))
+                            {
+                                <p class="m-0 m-t-10">@Model.TruckOwner.Address</p>
+                            }
+                            else
+                            {
+                                <p class="m-0 m-t-10">Bhandara, Maharashtra</p>
+                            }
+                            <p> <a href="#">@Model.TruckOwner.EmailId</a></p>
+                        </div>
+                    }
+                    @if (Model.Driver != null)
+                    {
+                        <div class="col-md-@col col-xs-12 invoice-client-info">
+                            <h6>Driver Information :</h6>
+                            <h6 class="m-0">@Model.Driver.Name</h6>
+                            <p class="m-0">(+91) - @Model.Driver.MobileNumber</p>
+                            @if (!string.IsNullOrEmpty(Model.Driver.Address))
+                            {
+                                <p class="m-0 m-t-10">@Model.Driver.Address</p>
+                            }
+                            else
+                            {
+                                <p class="m-0 m-t-10">Bhandara, Maharashtra</p>
+                            }
+
+                            <p> <a href="#">@Model.Driver.EmailId</a></p>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table  invoice-detail-table">
+                                <thead>
+                                    <tr class="thead-default">
+                                        <th>Order Id</th>
+                                        <th>Transport Type</th>
+                                        <th>OrderDate</th>
+                                        <th>Status</th>
+
+                                        <th>Product</th>
+                                         @if(Model.TransportTypeId==1)
+                                            {
+                                               <th>Buy Amount</th>
+                                            }
+                                            else
+                                            {
+                                              <th>Sell Amount</th>
+                                            }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <h6>@Model.OrderId</h6>
+
+                                            </td>
+                                            <td>
+                                                @Model.TransportType
+
+                                            </td>
+                                            <td>
+                                                @Model.OrderDate.ToString("dd/MMM/yyyy")
+
+                                            </td>
+                                            <td>
+                                                <span class="label label-success">Delivered</span>
+                                            </td>
+                                            <td>
+                                                @Model.Product
+
+                                            </td>
+                                            @if(Model.TransportTypeId==1)
+                                            {
+                                                <td>
+                                                &#8377;@Model.BuyAmount
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                &#8377;@Model.SellAmount
+                                            </td>
+                                            }
+
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-responsive invoice-table invoice-total">
+                            <tbody>
+                                @if (Model.TruckRent > 0 && Model.TransportTypeId==4)
+                                {
+                                    <tr>
+                                        <th>Truck Rent :</th>
+                                        <td class="text-success">+ &#8377;@Model.TruckRent</td>
+                                    </tr>
+
+                                }
+                                else if(Model.TransportTypeId==1)
+                                {
+                                    <tr>
+                                        <th>Truck Rent :</th>
+                                        <td class="text-warning"> &#8377;@Model.TruckRent</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th>Truck Rent :</th>
+                                        <td class="text-danger">- &#8377;@Model.TruckRent</td>
+                                    </tr>
+                                }
+                                @if(Model.TransportTypeId==2)
+                                {
+                                     <tr>
+                                    <th>Invest Amount :</th>
+                                    <td class="text-danger">- &#8377;@Model.BuyAmount</td>
+                                </tr>
+                                }
+                                else  @if(Model.TransportTypeId==3)
+                                {
+                                     <tr>
+                                    <th>Buy Amount :</th>
+                                    <td class="text-danger">- &#8377;@Model.BuyAmount</td>
+                                </tr>
+                                }
+                                <tr class="text-info">
+                                    <td>
+                                        <hr />
+                                         @if(Model.Profit>=0)
+                                        {
+                                           <h5 class="text-success">Profit :</h5>
+                                        }
+                                        else if(Model.TransportTypeId==1)
+                                        {
+                                            <h5 class="text-primary">Total Amount :</h5>
+                                        }
+                                        else
+                                        {
+                                            <h5 class="text-danger">Loss :</h5>
+                                        }
+                                        
+                                    </td>
+                                    <td>
+                                        <hr />
+                                        @if(Model.Profit>=0)
+                                        {
+                                            <h5 class="text-success">+ &#8377;@Model.Profit</h5>
+                                        }
+                                        else if(Model.TransportTypeId==1)
+                                        {
+                                            var loss = Model.Profit * -1;
+                                           <h5 class="text-warning"> &#8377;@loss</h5>
+                                        }
+                                        else
+                                        {
+                                            var loss = Model.Profit * -1;
+                                            <h5 class="text-danger">- &#8377;@loss</h5>
+                                        }
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

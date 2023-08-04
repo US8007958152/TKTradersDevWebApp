@@ -1,0 +1,296 @@
+﻿@{
+    ViewData["Title"] = "Edit Order";
+}
+@model TKTradersWebApp.Areas.Transports.Models.Transport
+<style>
+    .icofont
+    {
+        font-weight:bold !important;
+    }
+    .j-wrapper-640 {
+    max-width: 1050px !important;
+}
+</style>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Update Order</h5>
+                <div class="card-header-right">
+                    <i class="icofont icofont-rounded-down"></i>
+                    <i class="icofont icofont-refresh"></i>
+                    <i class="icofont icofont-close-circled"></i>
+                </div>
+            </div>
+            <div class="card-block">
+               
+                <div class="j-wrapper j-wrapper-640">
+                   
+                    <form asp-area="Transports" asp-controller="Transport" asp-action="Create" method="post" class="j-pro" id="frmUserInfo" autocomplete="off" enctype="multipart/form-data" novalidate>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="TransportId" id="hdnTransportId"/>
+                        <div class="j-content">
+                            @Html.Partial("AlertView")
+                            <div class="j-row">
+                                 <div class="j-span4 j-unit">
+                                    <label class="j-label">Transport Type</label>
+                                    <label class="j-input j-select">
+                                        <select  asp-for="TransportTypeId" id="ddlTransportType" required disabled>
+                                            <option value="" selected>-- Select --</option>
+                                            <option value="1" >Import</option>
+                                            <option value="2" >Export</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                @if(Model.SupplierId>0)
+                                {
+                                     <div class="j-span4 j-unit">
+                                    <label class="j-label">Supplier</label>
+                                    <label class="j-input j-select">
+                                        <select  asp-for="SupplierId" asp-items="@ViewBag.ddlAllUser" id="ddlSupplier" disabled required>
+                                            <option value="" selected>-- Select --</option>
+                                            <option value="-999" >Other Supplier</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                }
+                               
+                                @if(Model.CustomerId>0)
+                                {
+                                       <div class="j-span4 j-unit">
+                                    <label class="j-label">Customer</label>
+                                    <label class="j-input j-select">
+                                        <select  required id="ddlCustomer" asp-items="@ViewBag.ddlAllUser" asp-for="CustomerId" disabled>
+                                            <option value="" selected>-- Select --</option>
+                                            <option value="-999" >Other Customer</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                }
+                             
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Product</label>
+                                    <label class="j-input j-select">
+                                        <select asp-for="@Model.TTransportProductDetail.ProductId" disabled asp-items="@ViewBag.ddlProduct" required id="ddlProduct">
+                                            <option value="" >Select Product</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Product Type</label>
+                                    <label class="j-input j-select">
+                                        <select asp-for="@Model.TTransportProductDetail.ProductTypeId" asp-items="@ViewBag.ddlProductType" disabled required id="ddlProductType">
+                                            <option value="" >Select Product Type</option>
+
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Quantity</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Quantity">
+                                            <i class="icofont icofont-cart-alt"></i>
+                                        </label>
+                                        <input type="text" asp-for="@Model.TTransportProductDetail.Quantity" id="Quantity" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Product Quantity</span>
+                                        <input type="hidden" id="hdnAvailableStock" value="0" />
+                                        
+                                    </div>
+                                </div>
+                              <div class="j-span4 j-unit">
+                                    <label class="j-label">Total Amount</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="productTotalAmount">
+                                            <i class="icofont icofont-cur-rupee-true"></i>
+                                        </label>
+                                        <input type="text" id="productTotalAmount" onkeypress="return isNumberKey(event,this)" asp-for="@Model.TTransportProductDetail.TotalAmount" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Total Amount</span>
+                                    </div>
+                                </div>
+
+                                
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Paid Amount</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="productPaidAmount">
+                                            <i class="icofont icofont-cur-rupee-true"></i>
+                                        </label>
+                                        <input type="text" id="productPaidAmount" onkeypress="return isNumberKey(event,this)" asp-for="@Model.TTransportProductDetail.PaidAmount" >
+                                        <span class="j-tooltip j-tooltip-right-top">Paid Amount</span>
+                                    </div>
+                                </div>
+                                
+                                
+                                @if(!Model.IsInternalTruck)
+                                {
+                                    <div class="j-span4 j-unit">
+                                    <label class="j-label">Truck</label>
+                                    <label class="j-input j-select">
+                                        <select asp-for="TruckId" required id="ddlTruck" asp-items="@ViewBag.ddlTruck" disabled>
+                                            <option value="">-- Select --</option>
+                                             @*<option value="-999" selected>Other Truck</option>*@
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                    <div class="j-span4 j-unit">
+                                    <label class="j-label">Truck Number</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="TruckNumber">
+                                            <i class="icofont icofont-vehicle-delivery-van "></i>
+                                        </label>
+                                        <input type="text" id="TruckNumber"  asp-for="TruckNumber" required disabled>
+                                        <span class="j-tooltip j-tooltip-right-top">Enter Truck Number</span>
+                                    </div>
+                                </div>
+                                 <div class="j-span4 j-unit">
+                                    <label class="j-label">Truck Owner Mobile</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="TruckOwnerMobile">
+                                            <i class="icofont icofont-phone"></i>
+                                        </label>
+                                        <input type="text" id="TruckOwnerMobile" asp-for="TruckOwnerMobile" maxlength="10"  required disabled>
+                                        <span class="j-tooltip j-tooltip-right-top">Enter Driver Mobile</span>
+                                    </div>
+                                </div>
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Truck Owner Name</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="TruckOwnerName">
+                                            <i class="icofont icofont-ui-user"></i>
+                                        </label>
+                                        <input type="text" id="TruckOwnerName" asp-for="TruckOwnerName" required disabled>
+                                        <span class="j-tooltip j-tooltip-right-top">Truck Owner Name</span>
+                                    </div>
+                                </div>
+                                 <div class="j-span4 j-unit">
+                                    <label class="j-label">Truck Rent</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="TruckRent">
+                                            <i class="icofont icofont-cur-rupee-true"></i>
+                                        </label>
+                                        <input type="text" id="truckTotalAmount" onkeypress="return isNumberKey(event,this)" asp-for="@Model.TTransportTruckDetail.TotalAmount"  required>
+                                        <span class="j-tooltip j-tooltip-right-top">Truck Rent</span>
+                                    </div>
+                                </div>
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Rent Paid Amount</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="TruckRent">
+                                            <i class="icofont icofont-cur-rupee-true"></i>
+                                        </label>
+                                        <input type="text" id="truckPaidAmount" onkeypress="return isNumberKey(event,this)" asp-for="@Model.TTransportTruckDetail.PaidAmount" >
+                                        <span class="j-tooltip j-tooltip-right-top">Rent Paid Amount</span>
+                                    </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="j-span4 j-unit">
+                                    <label class="j-label">Truck</label>
+                                    <label class="j-input j-select">
+                                        <select asp-for="TruckId" required id="ddlTruck" asp-items="@ViewBag.ddlTruck" disabled>
+                                            <option value="" selected>-- Select --</option>
+                                             <option value="-999" >Other Truck</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                }
+
+
+                                 
+                                
+                          @if(!Model.IsInternalDriver)
+                                {
+                                    <div class="j-span4 j-unit">
+                                    <label class="j-label">Driver</label>
+                                    <label class="j-input j-select">
+                                        <select asp-for="DriverId" asp-items="@ViewBag.ddlDriver" required id="ddlDriver" disabled>
+                                            <option value="" >-- Select --</option>
+                                            <option value="-999" selected>Other Driver</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                   
+                                </div>
+                                     <div class="j-span4 j-unit">
+                                    <label class="j-label">Driver Mobile</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="DriverMobile">
+                                            <i class="icofont icofont-phone"></i>
+                                        </label>
+                                        <input type="text" id="DriverMobile" maxlength="10" asp-for="DriverMobile" required disabled>
+                                        <span class="j-tooltip j-tooltip-right-top">Enter Driver Mobile</span>
+                                    </div>
+                                </div>
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Driver Name</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="DriverName">
+                                            <i class="icofont icofont-ui-user"></i>
+                                        </label>
+                                        <input type="text" id="DriverName" asp-for="DriverName" required disabled>
+                                        <span class="j-tooltip j-tooltip-right-top">Enter Driver Name</span>
+                                    </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="j-span4 j-unit">
+                                    <label class="j-label">Driver</label>
+                                    <label class="j-input j-select">
+                                        <select asp-for="DriverId" asp-items="@ViewBag.ddlDriver" required id="ddlDriver" disabled>
+                                            <option value="" selected>-- Select --</option>
+                                            <option value="-999">Other Driver</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                   
+                                </div>
+                                }
+
+                                
+                               
+                                <div class="j-span12 j-unit">
+                                    <label class="j-label">Comments</label>
+                                    <div class="j-input">
+
+                                        <textarea spellcheck="false" id="Comments" asp-for="Comments"></textarea>
+                                        <span class="j-tooltip j-tooltip-right-top">Enter Comments</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="j-footer">
+                            <a asp-area="Inventories" asp-controller="Order" asp-action="GetOrders" class="btn btn-primary">Go To List</a>
+                            <button type="button" class="btn btn-primary" id="btnSave">Save</button>
+                            <button type="reset" id="btnReset" class="btn btn-default m-r-20">Reset</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script src=@Url.Content("~/UserScripts/Inventories/Order/Edit.js")></script>
+     @if(TempData["SuccessMessage"]!=null)
+    {
+         <script type="text/javascript">toastr.success("@TempData["SuccessMessage"]");</script>
+    }
+    @if(TempData["ErrorMessage"]!=null)
+    {
+         <script type="text/javascript">toastr.error("@TempData["ErrorMessage"]");</script>
+    }
+}

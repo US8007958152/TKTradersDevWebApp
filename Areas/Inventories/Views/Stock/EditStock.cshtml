@@ -1,0 +1,226 @@
+﻿@{
+    ViewData["Title"] = "Add Stock";
+}
+@model TKTradersWebApp.Areas.Inventories.Models.AddStock
+<style>
+    .icofont
+    {
+        font-weight:bold !important;
+    }
+        .j-pro .j-span3 {
+    width: 30%;
+}
+.dvUserSite{
+    border:1px solid #8cddcd;
+    padding:10px;
+    margin-bottom:20px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="~/FlatableAdmin/bower_components/datedropper/datedropper.min.css" />
+<link rel="stylesheet" type="text/css" href="~/FlatableAdmin/bower_components/switchery/dist/switchery.min.css">
+
+<link rel="stylesheet" type="text/css" href="~/FlatableAdmin/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Edit Stock</h5>
+                <div class="card-header-right">
+                    <i class="icofont icofont-rounded-down"></i>
+                    <i class="icofont icofont-refresh"></i>
+                    <i class="icofont icofont-close-circled"></i>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="j-wrapper j-wrapper-640">
+                    <form asp-area="Inventories" asp-controller="Stock" asp-action="EditStock" method="post" class="j-pro" id="frmUserInfo" autocomplete="off" enctype="multipart/form-data" novalidate>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="hdnStockId" asp-for="@Model.Id" />
+                        <input type="hidden" id="hdnOrderId" asp-for="@Model.OrderId" />
+                        <div class="j-content"> 
+                            
+                              @Html.Partial("AlertView")
+                            <div class="j-row">
+                                 <div class="j-span4 j-unit">
+                                    <label class="j-label">Name</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="txtName">
+                                            <i class="icofont icofont-cur-rupee-true"></i>
+                                        </label>
+                                        <input type="text" asp-for="@Model.Title" id="txtName"  required>
+                                        <span class="j-tooltip j-tooltip-right-top">Please enter stock name</span>
+                                    </div>
+                                </div>
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Product</label>
+                                    <label class="j-input j-select">
+                                      
+                                        <select asp-for="@Model.ProductId" asp-items="@ViewBag.ProductDropdown" required id="ddlProduct" disabled>
+                                            <option value="" selected>Select Product</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                <div class="j-span4 j-unit">
+                                    <label class="j-label">Product Type</label>
+                                    <label class="j-input j-select">
+                                        <select asp-for="@Model.ProductTypeId" asp-items="@ViewBag.ProductTypesDropdown" required id="ddlProductType" disabled>
+                                            <option value="" selected>Select Product Type</option>
+
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="j-row">
+                                <div class="j-span6 j-unit">
+                                    <label class="j-label">Quantity</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Quantity">
+                                            <i class="icofont icofont-cart-alt"></i>
+                                        </label>
+                                        <input type="text" asp-for="@Model.Quantity" id="Quantity" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Product Quantity</span>
+                                           <input type="hidden" id="hdnAvailableStock" value="0" />
+                                        <div class="text-warning show-stock"></div>
+                                    </div>
+                                </div>
+                             <div class="j-span6 j-unit">
+                                    <label class="j-label">Total Amount</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="TotalAmount">
+                                            <i class="icofont icofont-cur-rupee-true"></i>
+                                        </label>
+                                        <input type="text" id="TotalAmount" asp-for="@Model.TotalAmount" >
+                                        <span class="j-tooltip j-tooltip-right-top">Total Amount</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                             <div class="dvUserSite">
+                               
+                                <h6><b>Investments</b></h6><br /><br />
+                                @if (Model.TStockInvestments != null && Model.TStockInvestments.Count()>0)
+                                {
+                                    @foreach(var investment in Model.TStockInvestments)
+                                    {
+                                        <div class="j-row">
+                                    <input type="hidden" class="inverstment-id" asp-for="@investment.Id" >
+                                    <div class="j-span3 j-unit">
+                                        <label class="j-label">Product</label>
+                                        <label class="j-input j-select">
+                                            <select asp-items="@ViewBag.InvestmentProductDropdown" disabled asp-for="@investment.ProductTypeId" required class="investment-product" id="ddlInvestmentProduct">
+                                                <option value="" selected>Select Product</option>    
+                                                  <option value="-111" >Lobour Charge</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                    <div class="j-span3 j-unit">
+                                    <label class="j-label">Quantity</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Quantity">
+                                            <i class="icofont icofont-cart-alt"></i>
+                                        </label>
+                                        <input type="text" asp-for="@investment.Quantity" class="quantity" disabled id="Quantity" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Product Quantity</span>
+                                        <input type="hidden" id="hdnAvailableStock" value="0" />
+                                        <div class="text-warning show-stock"></div>
+                                    </div>
+                                </div>
+                                   <div class="j-span3 j-unit">
+                                    <label class="j-label">Amount</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Amount">
+                                            <i class="icofont icofont-cart-alt"></i>
+                                        </label>
+                                        <input type="text" asp-for="@investment.Amount" disabled class="amount" id="Amount" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Product Amount</span>
+                                       
+                                        <div class="text-warning show-stock"></div>
+                                    </div>
+                                </div>
+                                  <div class="j-span1 j-unit">
+                                        <div class="j-input" style="font-size:35px;margin-top:25px;cursor: pointer;">
+                                            <i class="ion-ios-plus text-primary d-none"></i>
+                                            <i class="ion-ios-minus text-danger"></i>
+                                        </div>
+                                    </div>
+                                </div>      
+                                    }
+                                    
+                                }
+                                     <div class="j-row">
+                                    <input type="hidden" class="inverstment-id" value="0">
+                                    <div class="j-span3 j-unit">
+                                        <label class="j-label">Product</label>
+                                        <label class="j-input j-select">
+                                            <select  required class="investment-product" disabled asp-items="@ViewBag.InvestmentProductDropdown" id="ddlInvestmentProduct">
+                                                <option value="" selected>Select Product</option>
+                                             @*  <option value="-111" >Lobour Charge</option>*@
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                    <div class="j-span3 j-unit">
+                                    <label class="j-label">Quantity</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Quantity">
+                                            <i class="icofont icofont-cart-alt"></i>
+                                        </label>
+                                        <input type="text"  class="quantity" id="Quantity" disabled  required>
+                                        <span class="j-tooltip j-tooltip-right-top">Product Quantity</span>
+                                        <input type="hidden" id="hdnAvailableStock" value="0" />
+                                        <div class="text-warning show-stock"></div>
+                                    </div>
+                                </div>
+                                   <div class="j-span3 j-unit">
+                                    <label class="j-label">Amount</label>
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Amount">
+                                            <i class="icofont icofont-cart-alt"></i>
+                                        </label>
+                                        <input type="text"  class="amount" id="Amount" disabled required>
+                                        <span class="j-tooltip j-tooltip-right-top">Product Amount</span>
+                                       
+                                        <div class="text-warning show-stock"></div>
+                                    </div>
+                                </div>
+                                  <div class="j-span1 j-unit">
+                                        <div class="j-input" style="font-size:35px;margin-top:25px;cursor: pointer;">
+                                            <i class="ion-ios-plus text-primary"></i>
+                                            <i class="ion-ios-minus text-danger d-none"></i>
+                                        </div>
+                                    </div>
+                                </div>                       
+                            </div>
+                        </div>
+
+                        <div class="j-footer">
+                            <a asp-area="Inventories" asp-controller="Stock" asp-action="ViewStock" asp-route-productId="@Model.ProductId" asp-route-productTypeId="@Model.ProductTypeId" asp class="btn btn-primary">Back</a>
+                            <button type="button" class="btn btn-primary" id="btnSave">Save</button>
+                            <button type="button" id="btnReset" class="btn btn-default m-r-20">Reset</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/UserScripts/Inventories/EditStock.js"></script>
+     @if (TempData["SuccessMessage"] != null)
+    {
+        <script type="text/javascript">toastr.success("@TempData["SuccessMessage"]");</script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script type="text/javascript">toastr.error("@TempData["ErrorMessage"]");</script>
+    }
+  
+}

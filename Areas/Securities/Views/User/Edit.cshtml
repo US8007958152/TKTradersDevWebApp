@@ -1,0 +1,228 @@
+﻿@model TKTradersWebApp.EFServices.TUserMaster
+<style>
+        .j-pro .j-footer button {
+        margin-bottom: 0;
+        float: none !important;
+    }
+        option:first-child{
+            color:#999 !important;
+        }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="card">
+            <div class="card-header">
+                <h5>New User</h5>
+                <div class="card-header-right">
+                    <i class="icofont icofont-rounded-down"></i>
+                    <i class="icofont icofont-refresh"></i>
+                    <i class="icofont icofont-close-circled"></i>
+                </div>
+            </div>
+            <div class="card-block">
+                <div class="j-wrapper j-wrapper-640">
+
+
+                    <form action="/Securities/User/Edit" autocomplete="off" method="post" class="j-pro" id="frmUserInfo" enctype="multipart/form-data" novalidate>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="hdnUserId" asp-for="UserId" />
+                        <div class="j-content">                            
+                            <div class="j-row">
+                                <div class="j-span6 j-unit">
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="FullName">
+                                            <i class="icofont icofont-ui-user"></i>
+                                        </label>
+
+                                        <input type="text"  id="FullName" asp-for="@Model.Name" placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                                <div class="j-span6 j-unit">
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="MobileNumber">
+                                            <i class="icofont icofont-phone"></i>
+                                        </label>
+                                        <input type="text" placeholder="Mobile Number" id="MobileNumber" maxlength="10" asp-for="@Model.MobileNumber" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Users phone number</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="j-row">
+                                <div class="j-span6 j-unit">
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="EmailId">
+                                            <i class="icofont icofont-envelope"></i>
+                                        </label>
+                                        
+                                        <input type="text" placeholder="Email Id" id="EmailId" asp-for="@Model.EmailId">
+                                    </div>
+                                </div>
+                                <div class="j-span6 j-unit">
+                                    <label class="j-input j-select">
+                                        <select asp-for="@Model.UserTypeId" required id="UserType" disabled>
+                                            <option value="" selected>Select User Type</option>
+                                            <option value="1">Admin</option>
+                                            <option value="2">Customer</option>
+                                            <option value="3">Dealer</option>
+                                             <option value="4">Driver</option>
+                                            <option value="5">Supplier</option>
+                                            <option value="7">Petrol Pump Owner</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="j-row dvPassord">
+                                <div class="j-span6 j-unit">
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Password">
+                                            <i class="icofont icofont-lock"></i>
+                                        </label>
+                                        <input type="text" placeholder="Password" id="Password" asp-for="@Model.Password" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Password</span>
+                                    </div>
+                                </div>
+                                <div class="j-span6 j-unit">
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="ConfirmPassword">
+                                            <i class="icofont icofont-lock"></i>
+                                        </label>
+                                        <input type="text" placeholder="Confirm Password" asp-for="@Model.Password" id="ConfirmPassword" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Confirm Password</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="j-row dvUserDetails">
+                                 <div class="j-span12 j-unit dvCompany">
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Company">
+                                           <i class="icofont icofont-building"></i>
+                                        </label>
+                                        <input type="text" placeholder="Company" id="Company" asp-for="@Model.Company" required>
+                                        <span class="j-tooltip j-tooltip-right-top">Company</span>
+                                    </div>
+                                </div>
+                               
+                                </div>
+                                  <div class="dvUserSite">
+                                @{
+                                    int count = 0;
+                                }
+                                      @foreach(var site in Model.TUserSites)
+                                {
+                                    count = count + 1;
+                                    string sitePlaceholder = "Site" + count + " Address";
+                                    <div class="j-row">
+                                    <div class="j-span11 j-unit">
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="Company">
+                                                <i class="icofont icofont-building"></i>
+                                            </label>
+                                            <input type="hidden" id="hdnSiteId" value="@site.SiteId">
+                                            <input type="text" placeholder="@sitePlaceholder" asp-for="@site.SiteAddress" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Site Name</span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="j-span1 j-unit">
+                                        <div class="j-input" style="font-size:35px;margin-top: 6px;cursor: pointer;">
+                                            @if(Model.TUserSites.Count()==count)
+                                                {
+                                                     <i class="ion-ios-plus text-primary"></i>
+                                                    <i class="ion-ios-minus text-danger d-none"></i>
+                                                }
+                                                else
+                                                {
+                                                     <i class="ion-ios-plus text-primary d-none"></i>
+                                            <i class="ion-ios-minus text-danger "></i>
+                                                }
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                }
+                              
+                            </div>
+                            <div class="j-row dvUserDetails">
+                                <div class="j-span6 j-unit">
+                                    <div class="j-input">
+                                        <label class="j-icon-right" for="Address">
+                                            <i class="icofont icofont-building"></i>
+                                        </label>
+                                        <input type="text" id="Address" placeholder="Address" asp-for="@Model.Address">
+                                    </div>
+                                </div>
+                                <div class="j-span6 j-unit">
+                                    <label class="j-input j-select">
+                                        <select  asp-for="@Model.StateId" required id="State">
+                                            @* <option value="" selected>Select User Type</option>*@
+                                            <option value="22" selected>Maharashtra</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="j-row dvUserDetails">
+                                <div class="j-span6 j-unit">
+                                    <label class="j-input j-select">
+                                        <select asp-for="@Model.DistrictId" required id="ddlDistrict">
+                                              <option value="" selected>Select District</option>
+                                            <option value="1720">Bhandara</option>
+                                            <option value="1679" >Nagpur</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                                <div class="j-span6 j-unit">
+                                    <label class="j-input j-select">
+                                        <select asp-for="@Model.CityId" asp-items="@ViewBag.ddlCity" required id="ddlCity">
+                                             <option value="" selected>Select City</option>
+                                           @* <option value='1'>Bhandara</option>
+                                            <option value='2'>Tumsar</option>
+                                            <option value='3'>Pauni</option>
+                                            <option value='4'>Mohadi</option>
+                                            <option value='5'>Sakoli</option>
+                                            <option value='6'>Lakhani</option>
+                                            <option value='7'>Lakhandur</option>
+                                            <option value='8'>Gondia</option>
+                                            <option value='9'>Tirora</option>
+                                            <option value='10'>Arjuni Morgaon</option>
+                                            <option value='11'>Amgaon</option>
+                                            <option value='12'>Goregaon</option>
+                                            <option value='13'>Sadak Arjuni</option>
+                                            <option value='14'>Deori</option>
+                                            <option value='15'>Salekasa</option>*@
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="j-response"></div>
+                        </div>
+                        <div class="j-footer">
+                             <a asp-area="Securities" asp-controller="User" asp-action="GetUsers" class="btn btn-primary">Back</a>
+                            <button type="button" class="btn btn-primary" id="btnSave">Save</button>
+                            <button type="reset" class="btn btn-default m-r-20">Reset</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script src=@Url.Content("~/UserScripts/Securities/User.js")></script>
+      @if(TempData["SuccessMessage"]!=null)
+    {
+         <script type="text/javascript">toastr.success("@TempData["SuccessMessage"]");</script>
+    }
+    @if(TempData["ErrorMessage"]!=null)
+    {
+         <script type="text/javascript">toastr.error("@TempData["ErrorMessage"]");</script>
+    }
+}

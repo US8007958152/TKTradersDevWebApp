@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<link rel="stylesheet" type="text/css" href=@Url.Content("~/FlatableAdmin/bower_components/chartist/dist/chartist.css")>
+<style>
+    .danger-border
+    {
+            border-top-color: #e74c3c;
+    }
+</style>
+<div class="row">
+     <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks success-border">
+            <div class="card-block">
+                <h5>Export Profit</h5>
+                <ul>
+                    <li>
+                         <i class="icofont icofont-coins text-success"></i>
+                    </li>
+                    <li id="export-profit" class="text-right text-success">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+     
+    <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks dark-primary-border">
+            <div class="card-block">
+                <h5>Transport Profit</h5>
+                <ul>
+                    <li>
+                        <i class="icofont icofont-fast-delivery"></i>
+                    </li>
+                    <li id="transport-profit" class="text-right">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks warning-border">
+            <div class="card-block">
+                <h5>Truck Service Profit</h5>
+                <ul>
+                    <li>
+                       <i class="icofont icofont-oil-truck text-warning"></i>
+                    </li>
+                    <li id="truck-service-profit" class="text-right text-warning">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks danger-border">
+            <div class="card-block">
+                <h5>Overall Loss</h5>
+                <ul>
+                    <li>
+                        <i class="icofont icofont-coins text-danger"></i>
+                    </li>
+                    <li id="overall-loss" class="text-right text-danger">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+     @*  <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks dark-primary-border">
+            <div class="card-block">
+                <h5>Bricks Profit</h5>
+                <ul>
+                    <li>
+                       <i class="icofont icofont-bricks"></i>
+                    </li>
+                    <li id="bricks-profit" class="text-right">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks warning-border">
+            <div class="card-block">
+                <h5>Sands Profit</h5>
+                <ul>
+                    <li>
+                        <i class="icofont icofont-vehicle-excavator text-warning"></i>
+                    </li>
+                    <li id="sands-profit" class="text-right text-warning">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks success-border">
+            <div class="card-block">
+                <h5>Metals Profit</h5>
+                <ul>
+                    <li>
+                        <i class="icofont icofont-under-construction-alt text-success"></i>
+                    </li>
+                    <li id="metals-profit" class="text-right text-success">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card client-blocks">
+            <div class="card-block">
+                <h5>Husks Profit</h5>
+                <ul>
+                    <li>
+                        <i class="icofont icofont-pollution text-primary"></i>
+                    </li>
+                    <li id="husks-profit" class="text-right text-primary">
+                        0
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+
+<div class="row">
+    <div class="col-md-12 col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Order Count</h5>
+                <span>The total number of order per product</span>
+                <div class="card-header-right">
+                    <i class="icofont icofont-rounded-down"></i>
+                    <i class="icofont icofont-refresh"></i>
+                    <i class="icofont icofont-close-circled"></i>
+                </div>
+            </div>
+            <div class="card-block">
+                <canvas id="orderCount" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Export Product Profit</h5>
+                <span>Total paid, unpaid, received and remaining payment</span>
+                <div class="card-header-right">
+                    <i class="icofont icofont-rounded-down"></i>
+                    <i class="icofont icofont-refresh"></i>
+                    <i class="icofont icofont-close-circled"></i>
+                </div>
+            </div>
+            <div class="card-block">
+                <canvas id="productProfit" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Truck Amount</h5>
+                <span>Total amount paid and received</span>
+                <div class="card-header-right">
+                    <i class="icofont icofont-rounded-down"></i>
+                    <i class="icofont icofont-refresh"></i>
+                    <i class="icofont icofont-close-circled"></i>
+                </div>
+            </div>
+            <div class="card-block">
+                <canvas id="truckData" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+@section scripts{
+    <script type="text/javascript" src=@Url.Content("~/FlatableAdmin/bower_components/chart.js/dist/Chart.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/UserScripts/Dashboard/default.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/FlatableAdmin/bower_components/classie/classie.js")></script>
+ }

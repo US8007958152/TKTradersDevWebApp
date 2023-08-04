@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Edit Payment";
+}
+@model TKTradersWebApp.EFServices.TUserTransaction
+<div class="page-body">
+    <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Update Payment</h5>
+                    <div class="card-header-right">
+                        <i class="icofont icofont-rounded-down"></i>
+                        <i class="icofont icofont-refresh"></i>
+                        <i class="icofont icofont-close-circled"></i>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="j-wrapper j-wrapper-640">
+
+                        <form  method="post" class="j-pro" id="frmPaymentInfo" autocomplete="off" enctype="multipart/form-data" novalidate>
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="TransactionId" id="hdnTransactionId" />
+                            <div class="j-content">
+
+                                <div class="j-row">
+                                     <div class="j-span12 j-unit">
+                                        <label class="j-label">User</label>
+                                        <label class="j-input j-select">
+                                            <select id="ddlUser" asp-for="UserId" asp-items="@ViewBag.ddlUser" disabled required>
+                                                <option value="" selected>-- Select --</option>                                               
+                                            </select>
+                                            <span class="j-tooltip j-tooltip-right-top">Choose User</span>
+                                            <i></i>
+
+                                        </label>
+                                    </div>
+                                    </div>
+                                    <div class="j-row">
+                                     <div class="j-span12 j-unit">
+                                        <label class="j-label">Transaction Type</label>
+                                        <label class="j-input j-select">
+                                            <select id="ddlTransactionType" asp-for="TransactionTypeId" disabled  required>
+                                                <option value="" selected>-- Select --</option>     
+                                                 <option value="1">Send</option>
+                                                <option value="2">Receive</option>
+                                            </select>
+                                             <span class="j-tooltip j-tooltip-right-top">Choose Transaction Type</span>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                    </div>
+                                    <div class="j-row">
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Amount</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="Amount">
+                                               <i class="icofont icofont-cur-rupee-true"></i>
+                                            </label>
+                                            <input type="text" id="Amount" asp-for="Amount" onkeypress="return isNumberKey(event,this)" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Enter Amount</span>
+                                        </div>
+                                    </div>
+                                    </div>
+                           <div class="j-row">
+                                    <div class="j-span12 j-unit">
+                                        <label class="j-label">Comments</label>
+                                        <div class="j-input">
+                                            <label class="j-icon-right" for="Comments">
+                                               <i class="icofont icofont-cur-rupee-true"></i>
+                                            </label>
+                                            <input type="text" id="Comments" asp-for="Comments" required>
+                                            <span class="j-tooltip j-tooltip-right-top">Enter Comments</span>
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div>
+                            <div class="j-footer">
+                                <a asp-area="Securities" asp-controller="Payment" asp-action="GetPayments" class="btn btn-primary">Back</a>
+                                <button type="button" class="btn btn-primary" id="btnPaymentSave">Save</button>
+                                <button type="reset" id="btnPaymentReset" class="btn btn-default m-r-20">Reset</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+
+</div>
+@section scripts{
+    <script src=@Url.Content("~/UserScripts/Securities/Payment.js")></script>
+}

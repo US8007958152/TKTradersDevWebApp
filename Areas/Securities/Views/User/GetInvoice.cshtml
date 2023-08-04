@@ -1,0 +1,246 @@
+﻿@{
+   
+    ViewData["Title"] = "Invoice";
+}
+@model TKTradersWebApp.Areas.Securities.Models.Invoice
+<style>
+    .invoice-total {
+    background: #fff;
+    padding: 0px 0px;
+}
+</style>
+ <div id="dvPrint">
+<div class="container" style="width:100% !important">
+        <div class="card">
+            <div class="row invoice-contact">
+                <div class="col-md-8">
+                    <div class="invoice-box row">
+                        <div class="col-sm-12">
+                            <table class="table table-responsive invoice-table table-borderless">
+                                <tbody>
+                                   
+                                    <tr>
+                                        <td><b>TK Traders</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gujarati Colony Bhandara - 444701</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                         tktraders@gmail.com
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>+91 7020699799</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row text-center">
+                        <div class="col-sm-12 invoice-btn-group">
+                            <button type="button" class="btn btn-primary btn-print-invoice waves-effect waves-light m-r-20">
+                                Print Invoice
+                            </button>
+                            <a asp-area="Securities" asp-controller="User" asp-action="GetUsers" class="btn btn-danger waves-effect waves-light">
+                                Cancel Invoice
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if(Model._UserDetails!=null)
+            {
+                   <div class="card-block">
+                <div class="row invoive-info">
+                    <div class="col-md-4 col-xs-12 invoice-client-info">
+                        <h6>@Model._UserDetails.UserType Information :</h6>
+                        <h6 class="m-0">@Model._UserDetails.UserName</h6>                          
+                         <p class="m-0 m-t-10">@Model._UserDetails.Address, Model._UserDetails.OtherAddress</p>                            
+                            
+                        <p class="m-0">(+91) - @Model._UserDetails.MobileNumber</p>
+                        @if(!string.IsNullOrEmpty(Model._UserDetails.EmailId))
+                        {
+                            <p><a href="#">@Model._UserDetails.EmailId </a></p>
+                        }
+                        
+                    </div>
+                       @if(Model._USPGetInvoiceByUserId!=null && Model._USPGetInvoiceByUserId.ToList().Count()>0)
+                            {
+                                  <div class="col-md-4 col-sm-6">
+                        <h6>Order Information :</h6>
+                        <table class="table table-responsive invoice-table invoice-order table-borderless">
+                         
+                            <tbody>
+                                <tr>
+                                    <th>From Date :</th>
+                                    <td>@Model._USPGetInvoiceByUserId.ToList()[0].OrderDate.ToString("dd-MMM-yyyy")</td>
+                                </tr>
+                                <tr>
+                                    <th>To Date :</th>
+                                  
+                                       <td>@Model._USPGetInvoiceByUserId.ToList()[Model._USPGetInvoiceByUserId.ToList().Count()-1].OrderDate.ToString("dd-MMM-yyyy")</td>
+                                  
+                                </tr>
+                                <tr>
+                                    <th>Invoice Id :</th>
+                                    <td>
+                                        #145698
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                            }
+                  
+                    <div class="col-md-4 col-sm-6">
+                       <table class="table table-responsive invoice-table invoice-total">
+                            <tbody>
+                                <tr>
+                                    <th>Total Amount :</th>
+                                    @if(Model._UserDetails.TotalAmount>=0)
+                                        {
+                                            <td class="text-success">&#8377;@Model._UserDetails.TotalAmount</td>
+                                        }
+                                        else
+                                        {
+                                         var fTotalAmount = Model._UserDetails.TotalAmount * -1;
+                                            
+                                            <td class="text-danger">&#8377;@fTotalAmount</td>
+                                        }
+
+                                </tr>
+                                <tr>
+                                    <th>Send Amount :</th>
+                                    <td class="text-danger">-&#8377;@Model._UserDetails.SendAmount</td>
+                                </tr>
+                                <tr>
+                                    <th>Received Amount :</th>          
+                                   <td class="text-success">+&#8377;@Model._UserDetails.ReceivedAmount</td>
+                                    
+                                </tr>
+                               
+                                <tr class="text-info">
+                                    <td>
+                                        <hr />
+                                        <h5 class="text-primary">Final :</h5>
+                                    </td>
+                                   
+                                         @if(Model._UserDetails.FinalAmount>=0)
+                                        {
+                                             <td>
+                                        <hr />
+                                            <h5 class="text-success">&#8377;@Model._UserDetails.FinalAmount</h5>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                         var fFinalAmount = Model._UserDetails.FinalAmount * -1;   
+                                          <td>
+                                        <hr />
+                                          <h5 class="text-danger">&#8377;@fFinalAmount</h5>
+                                          </td>
+                                        }
+                                        
+                                    
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table  invoice-detail-table">
+                                <thead>
+                                    <tr class="thead-default">
+                                        <th>OrderId</th>
+                                          <th>Transport Type</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(var order in Model._USPGetInvoiceByUserId)
+                                    {
+                                        <tr>
+                                            <td>@order.OrderId</td>
+                                            <td>@order.TransportType</td>
+                                        <td>
+                                            <h6>@order.ProductName</h6>
+                                            
+                                        </td>
+                                        <td>@order.Quantity</td>
+                                        <td>&#8377;@order.TotalAmount</td>
+                                    </tr>
+                                    }
+                                    
+                                 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+               @* <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-responsive invoice-table invoice-total" style="background: #f3f3f3;">
+                            <tbody>
+                                <tr>
+                                    <th>Send Amount :</th>
+                                    <td>&#8377;4725.00</td>
+                                </tr>
+                                <tr>
+                                    <th>Received Amount :</th>
+                                    <td>&#8377;57.00</td>
+                                </tr>
+                               
+                                <tr class="text-info">
+                                    <td>
+                                        <hr />
+                                        <h5 class="text-primary">Total :</h5>
+                                    </td>
+                                    <td>
+                                        <hr />
+                                        <h5 class="text-primary">&#8377;4827.00</h5>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>*@
+               @* <div class="row">
+                    <div class="col-sm-12">
+                        <h6>Terms And Condition :</h6>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor </p>
+                    </div>
+                </div>*@
+            </div>
+            }
+         
+        </div>
+
+    </div>
+</div>
+ @section scripts{
+      <script>
+        $(document).ready(function(){
+            $(".btn-print-invoice").click(function() {
+                 $(".btn-print-invoice,.btn-danger").hide();
+                var bodyHtml = $("body").html();
+                var printHtml = $("#dvPrint").html();
+                $("body").html(printHtml);
+                window.print();
+                window.location.reload();
+            })
+        })
+    </script>
+ }
+     
+

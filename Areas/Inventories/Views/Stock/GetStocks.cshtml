@@ -1,0 +1,86 @@
+﻿@model List<TKTradersWebApp.CommonModel.ListCollection>
+
+<div class="page-wrapper">
+
+    <div class="page-header">
+        <div class="page-header-title">
+            <h4>Available Stock</h4>
+           
+        </div>
+       @* <div class="page-header-breadcrumb">
+            <ul class="breadcrumb-title">
+                <li class="breadcrumb-item">
+                    <a href="index-2.html">
+                        <i class="icofont icofont-home"></i>
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#!">Stock</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#!">GetStocks</a>
+                </li>
+            </ul>
+        </div>*@
+    </div>
+
+
+    <div class="page-body">
+
+        <div class="row">
+            @foreach(var product in Model)
+            {
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="card prod-view">
+                    <div class="prod-item text-center">
+                        <div class="prod-img">
+                            <div class="option-hover">
+                                 @if(product.Stock>0)
+                                {
+                                    <div class="p-new"><a href="#"> In Stock </a></div>
+                                }
+                                else
+                                {
+                                    <div class="p-danger"><a href="#"> Out Of Stock </a></div>
+                                }
+                                
+                            </div>
+                            <a href="#!" class="hvr-shrink">
+                                <img src="@product.ImagePath" class="img-fluid o-hidden" alt="prod1.jpg">
+                            </a>
+                          
+                            
+                        </div>
+                        <div class="prod-info">
+                            
+                            <h6 style="color:#1abc9c"> @product.ProductName</h6>
+                            <p><a asp-area="Inventories" asp-controller="Stock" asp-action="ViewStock" asp-route-productId="@product.ProductId" asp-route-productTypeId="@product.ProductTypeId"  class="txt-muted"> View Items @product.ItemCount </a></p>
+                          @*  <div class="stars stars-example-css m-b-10">
+                                <select id="example-css" class="rating-star" name="rating" autocomplete="off">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>*@
+                            @if(product.Stock>0)
+                                {
+                                    <h6>Available Stock: <span class="text-success">@product.Stock</span> </h6>
+                                }
+                                else
+                                {
+                                    <h6>Available Stock: <span class="text-danger">@product.Stock</span></h6>
+                                }
+                                
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>       
+             }
+        </div>
+
+    </div>
+
+</div>

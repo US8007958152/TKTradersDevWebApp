@@ -1,0 +1,25 @@
+﻿<style>
+    button.close {
+    margin-top: 0px;
+    margin-bottom: 0;
+}
+</style>  
+ 
+@if(TempData["SuccessMessage"]!=null)
+                        {
+                             <div class="alert alert-success background-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <i class="icofont icofont-close-line-circled text-white"></i>
+                                </button>
+                                <strong>@TempData["SuccessMessage"]</strong>
+                            </div>
+                        }
+                        @if(TempData["ErrorMessage"]!=null)
+                        {
+                            <div class="alert alert-danger background-danger">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <i class="icofont icofont-close-line-circled text-white"></i>
+                                </button>
+                                <strong> @TempData["ErrorMessage"]</strong>
+                            </div>
+                        }

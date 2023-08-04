@@ -1,0 +1,226 @@
+﻿@model TKTradersWebApp.Areas.Configuration.Models.ViewInvoice
+
+<style>
+        .icofont
+        {
+            font-weight:bold !important;
+        }
+        .j-wrapper-640 {
+        max-width: 1300px !important;
+    }
+    .j-wrapper {
+        padding: 0px 0px 20px 0px;
+    }
+</style>
+<div class="page-body">
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Fuel Invoice</h5>
+            <div class="card-header-right">
+                <i class="icofont icofont-rounded-down"></i>
+                <i class="icofont icofont-refresh"></i>
+                <i class="icofont icofont-close-circled"></i>
+            </div>
+        </div>
+        <div class="card-block">
+            <div class="j-wrapper j-wrapper-640">
+
+                <form asp-area="Configuration" asp-controller="Truck" asp-action="GetInvoice" method="post" class="j-pro" id="frmInvoiceInfo" autocomplete="off" enctype="multipart/form-data" novalidate>
+
+                    <div class="j-content">
+                        <div class="j-row">
+                            <div class="j-span3 j-unit">
+                                <label class="j-label">PetrolPump</label>
+                                <label class="j-input j-select">
+                                    <select id="ddlPetrolPump" name="PetrolPumpUserId" required>
+                                        <option value="" selected>-- Select --</option>
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </div>
+                            <div class="j-span3 j-unit">
+
+                                <label class="j-label">From Date</label>
+                                <div class="j-input">
+                                    <label class="j-icon-right" for="date_from">
+                                        <i class="icofont icofont-ui-calendar"></i>
+                                    </label>
+                                    <input type="text" id="date_from" name="FromDate" readonly="">
+                                </div>
+
+                            </div>
+                            <div class="j-span3 j-unit">
+                                <label class="j-label">To Date</label>
+                                <div class="j-input">
+                                    <label class="j-icon-right" for="date_to">
+                                        <i class="icofont icofont-ui-calendar"></i>
+                                    </label>
+                                    <input type="text" id="date_to" name="ToDate" readonly="">
+                                </div>
+                            </div>
+                            <div class="j-span3 j-unit">
+                                <label class="j-label">&nbsp;</label>
+                                <div class="j-input">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                    <button type="button" class="btn btn-primary btn-print-invoice">Print Invoice</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="dvPrint">
+                <table id="dom-jqry" class="table table-bordered nowrap">
+                    <thead>
+                        <tr>
+                            <th>Petrol Pump Information</th>
+                            <th>Invoice Details</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            <tr>
+                                <td rowspan="3">
+                                    <p>@Model.UserName</p>
+                                    <p>@Model.UserAddress</p>
+                                    <p>+91 @Model.UserMobile</p>
+                                    <p><a href="javascript:void()">@Model.EmailAddress</a></p>
+                                
+                                 <td>
+                                    Fuel Amount
+                                </td>
+                                 <td>
+                                     &#8377;@Model.FuelAmount
+                                </td>
+                            </tr>
+                          
+                            <tr>
+                                <td>
+                                    Sent Amount
+                                </td>
+                                 <td>
+                                     <span class="text-danger">-&#8377;@Model.SentAmount</span>  
+                                </td>
+                            </tr>
+                              <tr>
+                                <td>
+                                    Final Amount
+                                </td>
+                                 <td>
+                                     &#8377;@Model.FinalAmount
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+                <div class="table-responsive dt-responsive">
+                    <table id="dom-jqry" class="table table-striped table-bordered nowrap">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Date</th>
+                                <th>Fuel Type</th>
+                                <th>Truck Number</th>
+                                <th>Quantity</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th>Reading</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.viewFuels!=null)
+                            {
+                                @foreach (var order in Model.viewFuels)
+                                {
+                                    <tr>
+                                        <td>@order.Id</td>
+                                        <td>@order.CreatedDateTime.ToString("dd/MMM/yyyy")</td>
+                                        <td>@order.FuelType</td>
+                                        <td>@order.TruckNumber</td>
+                                        <td>@order.Quantity</td>
+                                        <td>@order.Rate</td>
+                                        <td>@order.Amount</td>
+                                        <td>@order.CurrentReading</td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+
+    <script src=@Url.Content("~/UserScripts/Configuration/Truck.js")></script>
+    <script>
+        $(document).ready(function() {
+            $(".btn-print-invoice").click(function() {
+                $(".btn-print-invoice,.btn-danger").hide();
+                var bodyHtml = $("body").html();
+                var printHtml = $("#dvPrint").html();
+                $("body").html(printHtml);
+                window.print();
+                window.location.reload();
+            });
+            /* Datepicker */
+            /***************************************/
+            // Start date
+            function dateFrom(date_from, date_to) {
+                $(date_from).datepicker({
+                    dateFormat: "dd/mm/yy",
+                    prevText: '<i class="fa fa-caret-left"></i>',
+                    nextText: '<i class="fa fa-caret-right"></i>',
+                    onClose: function(selectedDate) {
+                        $(date_to).datepicker("option", "minDate", selectedDate);
+                    }
+                });
+            }
+
+            // Finish date
+            function dateTo(date_from, date_to) {
+                $(date_to).datepicker({
+                    dateFormat: "dd/mm/yy",
+                    prevText: '<i class="fa fa-caret-left"></i>',
+                    nextText: '<i class="fa fa-caret-right"></i>',
+                    onClose: function(selectedDate) {
+                        $(date_from).datepicker("option", "maxDate", selectedDate);
+                    }
+                });
+            }
+
+            // Destroy date
+            function destroyDate(date) {
+                $(date).datepicker("destroy");
+            }
+
+            // Initialize date range
+            dateFrom("#date_from", "#date_to");
+            dateTo("#date_from", "#date_to");
+            /***************************************/
+            /* end datepicker */
+        })
+    </script>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script type="text/javascript">toastr.success("@TempData["SuccessMessage"]");</script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script type="text/javascript">toastr.error("@TempData["ErrorMessage"]");</script>
+    }
+        }
